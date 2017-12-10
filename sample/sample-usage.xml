@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  sample build file to test the isinlist custom Ant task.
+	Make sure ../target directory has isinlist-1.0.0.0.jar.
+-->
+<project name="isinlist-test" default="test-all" basedir=".">
+  	
+	<path id="ant.opt.lib.path">
+		<fileset dir="${basedir}/../target">
+			<include name="isinlist-1.0.0.0.jar"/>
+		</fileset>
+	</path>
+	<!-- sample uses antcontrib if task -->
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+	<!-- task definition of isinlist task -->
+	<typedef classname="com.sysgenius.tools.ant.customtask.IsInList" name="isinlist" classpathref="ant.opt.lib.path"/>
+        
+   <target name="isinlist-regex-test">
+		<property name="item.list" value="ci;Inting.*;release;SystemOut_16.01.23.log;native_stdout.*;native_stderr.*"/>
+		<property name="regex.item.name" value="native_stdout.log"/>
+		<property name="no.regex.item.name" value="nature"/>
+		<echo message="=====Item: ${regex.item.name} must exist in the list: ${item.list}====="/>
+	  <if>
+				<isinlist casesensitive="false" delimiter=";" value="${regex.item.name}" valueList="${item.list}" isRegEx="true"/>
+				<then>
+						<echo message="Item: ${regex.item.name} exists in list: ${item.list}"/>
+				</then>
+				<else>
+					<echo message="Item: ${regex.item.name} Not found in list: ${item.list}"/>
+				</else>
+		</if>
+		<echo message="=====Item: ${no.regex.item.name} must NOT exist in the list: ${item.list}====="/>
+		<if>
+				<isinlist casesensitive="false" delimiter=";" value="${no.regex.item.name}" valueList="${item.list}" isRegEx="true"/>
+				<then>
+						<echo message="Item ${no.regex.item.name} exists in list ${item.list}"/>
+				</then>
+				<else>
+					<echo message="Item ${no.regex.item.name} Not found in list ${item.list}"/>
+				</else>
+		</if>
+	</target>
+	
+	<target name="isinlist-test">
+		<property name="item.list" value="ci;Inting.*;release;SystemOut_16.01.23.log;native_stdout.*;native_stderr.*"/>
+		<property name="regular.item.name" value="release"/>
+		<property name="no.regular.item.name" value="creature"/>
+		<echo message="=====Item: ${regular.item.name} must exist in the list: ${item.list}====="/>
+	  <if>
+				<isinlist casesensitive="false" delimiter=";" value="${regular.item.name}" valueList="${item.list}" isRegEx="false"/>
+				<then>
+						<echo message="Item: ${regular.item.name} exists in list: ${item.list}"/>
+				</then>
+				<else>
+					<echo message="Item: ${regular.item.name} Not found in list: ${item.list}"/>
+				</else>
+		</if>
+		<echo message="=====Item: ${no.regular.item.name} must NOT exist in the list: ${item.list}====="/>
+	  <if>
+				<isinlist casesensitive="false" delimiter=";" value="${no.regular.item.name}" valueList="${item.list}" isRegEx="false"/>
+				<then>
+						<echo message="Item: ${no.regular.item.name} exists in list: ${item.list}"/>
+				</then>
+				<else>
+					<echo message="Item: ${no.regular.item.name} Not found in list: ${item.list}"/>
+				</else>
+		</if>
+	</target>
+	
+	<target name="test-all" depends="isinlist-regex-test,isinlist-test"/>
+</project>

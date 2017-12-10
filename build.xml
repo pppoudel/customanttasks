@@ -1,0 +1,23 @@
+<project name="CustomAntTask" default="package" basedir=".">
+	<property name="src.dir" value="${basedir}/src/main/java"/>
+	<property name="tgt.dir" value="${basedir}/target"/>
+	<property name="classes.dir" value="${tgt.dir}/classes"/>
+	<property name="custom.project.version" value="1.0.0.0"/>
+	
+	<target name="clean">
+		<delete dir="${classes.dir}"/>
+		<delete file="${tgt.dir}/isinlist-${custom.project.version}.jar"/>
+	</target>
+	
+	<target name="compile" depends="clean">
+		<mkdir dir="${classes.dir}"/>
+		<javac srcdir="${src.dir}" destdir="${classes.dir}"
+			source="1.7" target="1.7">
+			<include name="**/com/sysgenius/tools/ant/customtask/**"/>
+		</javac>
+	</target>
+	
+	<target name="package" depends="compile">
+		<jar destfile="${tgt.dir}/isinlist-${custom.project.version}.jar" basedir="${classes.dir}"/>
+	</target>
+</project>
