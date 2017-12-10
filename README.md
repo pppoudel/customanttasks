@@ -14,9 +14,9 @@ Follow the steps below:
 	 by defining a custom library path like below and making a reference to it.
 ```   
 <path id="ant.opt.lib.path">  
-		<fileset dir="${basedir}/lib">  
-			<include name="isinlist-1.0.0.0.jar"/>  
-		</fileset>  
+	<fileset dir="${basedir}/lib">  
+		<include name="isinlist-1.0.0.0.jar"/>  
+	</fileset>  
 </path>  
 ```  
 2. Next, define the task, below is one of the ways:  
@@ -35,10 +35,12 @@ Follow the steps below:
   #### Example 2:  
   You have a list of items like "ci;Inting.*;release;SystemOut_16.01.23.log;native_stdout.*;native_stderr.*" separated by ";".   
 	Here you need to find out whether an item called "release" exists.   
-	In this case you can use regular lookup.  
+	In this case you can use regular lookup. 
+	
 	```   
 		<property name="item.list" value="ci;Inting.*;release;SystemOut_16.01.23.log;native_stdout.*;native_stderr.*"/>  
 		<property name="regular.item.name" value="release"/>  
 		<isinlist casesensitive="false" delimiter=";" value="${regular.item.name}" valueList="${item.list}" isRegEx="false"/>
-  ```  
+  ```
+  
 See the sample-usage.xml file for detail usage.  
